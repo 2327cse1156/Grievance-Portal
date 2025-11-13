@@ -1,35 +1,59 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import store from './redux/store';
+
+// Layout Components
+import Navbar from './components/common/Navbar';
+import Footer from './components/common/Footer';
+import ProtectedRoute from './components/common/ProtectedRoute';
+
+// Pages
+import Home from './pages/Home';
+import Login from './components/auth/Login';
+import Register from './components/auth/Register';
+import NotFound from './pages/NotFound';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <Provider store={store}>
+      <Router>
+        <div className="flex flex-col min-h-screen">
+          <Navbar />
+          <main className="grow">
+            <Routes>
+              {/* Public Routes */}
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              
+              {/* Protected Routes - will add in next phase */}
+              
+              {/* 404 */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </main>
+          <Footer />
+          
+          {/* Toast Notifications */}
+          <ToastContainer
+            position="top-right"
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
+        </div>
+      </Router>
+    </Provider>
+  );
 }
 
-export default App
+export default App;

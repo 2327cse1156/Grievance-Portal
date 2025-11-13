@@ -1,11 +1,18 @@
-import React from 'react'
+import React from 'react';
 
-function Card() {
+const Card = ({ children, className = '', hover = false, ...props }) => {
   return (
-    <div>
-      
+    <div
+      className={`
+        bg-white rounded-lg shadow-md p-6
+        ${hover ? 'hover:shadow-lg transition-shadow duration-200 cursor-pointer' : ''}
+        ${className}
+      `}
+      {...props}
+    >
+      {children}
     </div>
-  )
-}
+  );
+};
 
-export default Card
+export default Card;
